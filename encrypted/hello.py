@@ -1,1 +1,2 @@
-hello = lambda: 'Hello world!'
+hello =  'Hello world!'
+print(hello)
