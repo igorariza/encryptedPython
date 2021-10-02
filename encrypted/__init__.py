@@ -5,17 +5,17 @@
 #Librerias
 import os
 import pandas as pd
-#import mysql.connector #Base de datos
+import mysql.connector #Base de datos
 
 #Archivos proyecto
 from morse import encrypt, decrypt
-#from murcielago import encrypt_m, decrypt_m
+from murcielago import encrypt_m, decrypt_m
 
-""" mydb=mysql.connector.connect(host="localhost",user="root",passwd="admin")
+mydb=mysql.connector.connect(host="localhost",user="root",passwd="admin")
 mycursor=mydb.cursor()
 mycursor.execute("USE encrypted")
 mycursor.execute("CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), email VARCHAR(255))")
-mycursor.execute("CREATE TABLE IF NOT EXISTS message (id INT AUTO_INCREMENT PRIMARY KEY, message VARCHAR(255), encrypted VARCHAR(255), type VARCHAR(255), email VARCHAR(255))") """
+mycursor.execute("CREATE TABLE IF NOT EXISTS message (id INT AUTO_INCREMENT PRIMARY KEY, message VARCHAR(255), encrypted VARCHAR(255), type VARCHAR(255), email VARCHAR(255))")
 
 Cant_usuarios = 0
 usuarios = [[]]
@@ -32,31 +32,37 @@ def registro_datos():
        usuario = [nombre_usuario, email_usuario]
        usuarios[Cant_usuarios].append(usuario)
       #Almacenamiento Base de datos
-       """ sql = "INSERT INTO users (name, email) VALUES (%s, %s)"
+       sql = "INSERT INTO users (name, email) VALUES (%s, %s)"
        val = (nombre_usuario, email_usuario)
        mycursor.execute(sql, val)
        mydb.commit()
-       print(mycursor.rowcount, "usuario ingresado a la base de datos.") """
+       print(mycursor.rowcount, "usuario ingresado a la base de datos.") 
+       input("******* Presione cualquier tecla para continuar *******")
        #Incremento
        Cant_usuarios + 1
     else:
        main()
 
 def listado_usuarios():
+    os.system('clear') # NOTA para windows tienes que cambiar clear por cls
+    mycursor.execute("SELECT * FROM users")
+    myresult = mycursor.fetchall()
+    for x in myresult:
+      print(x)
+    input("\n******* Presione cualquier tecla para continuar *******")
+    main()
 
-  df = pd.DataFrame(usuarios)
-  print(df)
-
-"""   for num in usuarios:
-         print (num) """
-
-def consulta_bd():
-    # mycursor.execute("SELECT * FROM message")
-    # myresult = mycursor.fetchall()
-    # for x in myresult:
-      print("x")
+def consulta_bd_message():
+    os.system('clear') # NOTA para windows tienes que cambiar clear por cls
+    mycursor.execute("SELECT * FROM message")
+    myresult = mycursor.fetchall()
+    #for x in myresult:
+    print("resultados: ", myresult)
+    input("\n******* Presione cualquier tecla para continuar *******")
+    main()
 
 def encryptedOption():
+    os.system('clear') # NOTA para windows tienes que cambiar clear por cls
     print("******* SELECCIONA EL TIPO DE ENCRIPTADO QUE DESEAS UTILIZAR ******* \n")
     print("Por favor, digite el número de su elección: \n")
     print("\t [1] MORSE")
@@ -66,28 +72,52 @@ def encryptedOption():
     opcionMenu = input("Seleccione una opción >> ")
     if opcionMenu == "1":
       encryptedMorse()
-    
+
+def consultaEmail():
+    os.system('clear') # NOTA para windows tienes que cambiar clear por cls
+    emailDecryp = input("\nIngresa tu Email para consultar tus registros realizados: ")
+    query= "SELECT * FROM users WHERE email=%s"
+    myresult = mycursor.execute(query,(emailDecryp,))
+    #for x in myresult:
+    print(myresult, emailDecryp)
+
+    num_message = input("\nIngresa el numero del mensaje a desencriptar >> ")
+    sqlII = "SELECT encrypted FROM message WHERE id=%s"
+    mycursor.execute(sqlII,num_message)
+    myresultII = mycursor.fetchall()
+    decipher = decrypt(myresultII)
+    print("\nMensaje descifrado: " + decipher)
+    encryptedMorse()
+
+
 def encryptedMorse():
-    print("******* SELECCIONA UNA OPCIÓN ******* \n")
+    os.system('clear') # NOTA para windows tienes que cambiar clear por cls
+    print("******* ¿Qué deseas realzar? ******* \n")
     print("Por favor, digite el número de su elección: \n")
     print("\t [1] ENCRIPTAR")
     print("\t [2] DESENCRIPTAR")
     print("\t [3] CONSULTAR")
     print("\t [0] REGRESAR  \n")
-    opcionMenu = input("Seleccione una opción >> ")
+    opcionMenu = input("Selecciona la opción >> ")
     if opcionMenu == "1":
+      type= "MORSE"
       print("******* ENCRIPTADO MORSE ******* \n")
       message = input("Ingrese el mensaje que desea encriptar >> ")
       cipher = encrypt(message)
       print("\nMensaje ingresado: " + message)
       print("\nMensaje encriptado: " + cipher)
-      opcionGuardar = input("\n¿Deseas guardar la información para consultas futuras? S: Si, N: No:")
+      opcionGuardar = input("\n¿Deseas guardar la información en la base de datos? S: Si, N: No:")
       if opcionGuardar == 'S' or opcionGuardar == 's':
-       """ sql = "INSERT INTO message (message, encrypted, type) VALUES (%s, %s, %s)"
-       val = (message, cipher, "MORSE")
+       opcionEmail = input("\nIngresa tu Email")
+       sql = "INSERT INTO message (message, encrypted, type, email) VALUES (%s, %s, %s, %s)"
+       val = (message, cipher, type, opcionEmail)
        mycursor.execute(sql, val)
        mydb.commit()
-       print(mycursor.rowcount, "Mensaje Ingresado.") """
+       print(mycursor.rowcount, "Mensaje Ingresado con el email: ", opcionEmail)
+       input("\n******* Presione cualquier tecla para continuar *******")
+       encryptedMorse()
+    elif opcionMenu == "2":
+        consultaEmail()
     else:
        main()
 
@@ -117,8 +147,7 @@ while True:
 		input("")
 	elif opcionMenu == "3":  
 		#email=input("Ingresa el email del usuario a consultar... pulsa una tecla para consutar todos los registros en la base de datos")
-		consulta_bd()
-		input("")
+		consulta_bd_message()
 	elif opcionMenu=="4":
 		encryptedOption()
 	elif opcionMenu=="9":
