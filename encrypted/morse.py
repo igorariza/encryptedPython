@@ -51,15 +51,3 @@ def decrypt(message):
                 citext = ''
  
     return decipher
- 
-def main():
-    message = "igor"
-    result = encrypt(message.upper())
-    print (result)
- 
-    result = decrypt(result)
-    print (result)
- 
-# Executes the main function
-if __name__ == '__main__':
-    main()
