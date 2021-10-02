@@ -5,17 +5,17 @@
 #Librerias
 import os
 import pandas as pd
-import mysql.connector #Base de datos
+#import mysql.connector #Base de datos
 
 #Archivos proyecto
 from morse import encrypt, decrypt
 #from murcielago import encrypt_m, decrypt_m
 
-mydb=mysql.connector.connect(host="localhost",user="root",passwd="admin")
+""" mydb=mysql.connector.connect(host="localhost",user="root",passwd="admin")
 mycursor=mydb.cursor()
 mycursor.execute("USE encrypted")
 mycursor.execute("CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), email VARCHAR(255))")
-mycursor.execute("CREATE TABLE IF NOT EXISTS message (id INT AUTO_INCREMENT PRIMARY KEY, message VARCHAR(255), encrypted VARCHAR(255), type VARCHAR(255), email VARCHAR(255))")
+mycursor.execute("CREATE TABLE IF NOT EXISTS message (id INT AUTO_INCREMENT PRIMARY KEY, message VARCHAR(255), encrypted VARCHAR(255), type VARCHAR(255), email VARCHAR(255))") """
 
 Cant_usuarios = 0
 usuarios = [[]]
@@ -32,11 +32,11 @@ def registro_datos():
        usuario = [nombre_usuario, email_usuario]
        usuarios[Cant_usuarios].append(usuario)
       #Almacenamiento Base de datos
-       sql = "INSERT INTO users (name, email) VALUES (%s, %s)"
+       """ sql = "INSERT INTO users (name, email) VALUES (%s, %s)"
        val = (nombre_usuario, email_usuario)
        mycursor.execute(sql, val)
        mydb.commit()
-       print(mycursor.rowcount, "usuario ingresado a la base de datos.")
+       print(mycursor.rowcount, "usuario ingresado a la base de datos.") """
        #Incremento
        Cant_usuarios + 1
     else:
@@ -51,10 +51,10 @@ def listado_usuarios():
          print (num) """
 
 def consulta_bd():
-    mycursor.execute("SELECT * FROM message")
-    myresult = mycursor.fetchall()
-    for x in myresult:
-      print(x)
+    # mycursor.execute("SELECT * FROM message")
+    # myresult = mycursor.fetchall()
+    # for x in myresult:
+      print("x")
 
 def encryptedOption():
     print("******* SELECCIONA EL TIPO DE ENCRIPTADO QUE DESEAS UTILIZAR ******* \n")
@@ -83,11 +83,11 @@ def encryptedMorse():
       print("\nMensaje encriptado: " + cipher)
       opcionGuardar = input("\n¿Deseas guardar la información para consultas futuras? S: Si, N: No:")
       if opcionGuardar == 'S' or opcionGuardar == 's':
-       sql = "INSERT INTO message (message, encrypted, type) VALUES (%s, %s, %s)"
+       """ sql = "INSERT INTO message (message, encrypted, type) VALUES (%s, %s, %s)"
        val = (message, cipher, "MORSE")
        mycursor.execute(sql, val)
        mydb.commit()
-       print(mycursor.rowcount, "Mensaje Ingresado.")
+       print(mycursor.rowcount, "Mensaje Ingresado.") """
     else:
        main()
 
