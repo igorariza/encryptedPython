@@ -9,7 +9,7 @@ _Crea una carpeta nueva para el proyecto y Clona el repositorio_
 git clone https://github.com/igorariza/encryptedPython.git
 ```
 
-### Commando 📋 <br>
+### Ejecuta 📋 <br>
 
 ```
 python encrypted/__init__.py
