@@ -24,7 +24,7 @@ usuarios = [[]]
 decipher=""
 
 def registro_datos():
-    os.system('clear') # NOTA para windows tienes que cambiar clear por cls
+    os.system('cls') # NOTA para windows tienes que cambiar cls por cls
     #Entradas
     print("******* REGISTRO DE USUARIO ******* \n")
     nombre_usuario = input("Nombres: ")
@@ -47,7 +47,7 @@ def registro_datos():
        main()
 
 def listado_usuarios():
-    os.system('clear') # NOTA para windows tienes que cambiar clear por cls
+    os.system('cls') # NOTA para windows tienes que cambiar cls por cls
     mycursor.execute("SELECT * FROM users")
     myresult = mycursor.fetchall()
     for x in myresult:
@@ -56,7 +56,7 @@ def listado_usuarios():
     main()
 
 def consulta_bd_message():
-    os.system('clear') # NOTA para windows tienes que cambiar clear por cls
+    os.system('cls') # NOTA para windows tienes que cambiar cls por cls
     mycursor.execute("SELECT * FROM message")
     myresult = mycursor.fetchall()
     for x in myresult:
@@ -65,7 +65,7 @@ def consulta_bd_message():
     main()
 
 def encryptedOption():
-    os.system('clear') # NOTA para windows tienes que cambiar clear por cls
+    os.system('cls') # NOTA para windows tienes que cambiar cls por cls
     print("******* SELECCIONA EL TIPO DE ENCRIPTADO QUE DESEAS UTILIZAR ******* \n")
     print("Por favor, digite el número de su elección: \n")
     print("\t [1] MORSE")
@@ -83,7 +83,7 @@ def encryptedOption():
        main()
 
 def encryptedMurcielago():
-    os.system('clear') # NOTA para windows tienes que cambiar clear por cls
+    os.system('cls') # NOTA para windows tienes que cambiar cls por cls
     tipo= "MURCIELAGO"
     print("******* ¿Qué deseas realzar? ******* \n")
     print("Por favor, digite el número de su elección: \n")
@@ -116,7 +116,7 @@ def encryptedMurcielago():
        main()
 
 def encryptedBinario():
-    os.system('clear') # NOTA para windows tienes que cambiar clear por cls
+    os.system('cls') # NOTA para windows tienes que cambiar cls por cls
     tipo= "BINARIO"
     print("******* ¿Qué deseas realzar? ******* \n")
     print("Por favor, digite el número de su elección: \n")
@@ -128,7 +128,7 @@ def encryptedBinario():
     if opcionMenu == "1":      
       print("******* ENCRIPTADO BINARIO ******* \n")
       message_b = input("Ingrese el mensaje que desea encriptar >> ")
-      cipher_b = cipher_encrypt(message_b, 4)
+      cipher_b = cipher_encrypt(message_b, 3)
       print("\nMensaje ingresado: " + message_b)
       print("\nMensaje encriptado: " + cipher_b)
       opcionGuardar = input("\n¿Deseas guardar la información en la base de datos? S: Si, N: No:")
@@ -149,7 +149,7 @@ def encryptedBinario():
        main()
 
 def consultaEmail(types):
-    os.system('clear') # NOTA para windows tienes que cambiar clear por cls
+    os.system('cls') # NOTA para windows tienes que cambiar cls por cls
     emailDecryp = input("\nIngresa tu Email para consultar tus registros realizados: ")
     query = "SELECT * FROM message WHERE email=%s"
     mycursor.execute(query,(emailDecryp, ))
@@ -171,15 +171,15 @@ def consultaEmail(types):
       input("\n******* Presione cualquier tecla para continuar *******")
       encryptedMurcielago()
     elif types == "BINARIO":
-      decipher = cipher_decrypt(myresultII[0][0], 4)
-      print("\nMensaje descifrado: ", decipher)
+      decipherb = cipher_decrypt(myresultII[0][0], 3)
+      print("\nMensaje descifrado: ", decipherb)
       input("\n******* Presione cualquier tecla para continuar *******")
       encryptedBinario()
     
 
 
 def encryptedMorse():
-    os.system('clear') # NOTA para windows tienes que cambiar clear por cls
+    os.system('cls') # NOTA para windows tienes que cambiar cls por cls
     tipo= "MORSE"
     print("******* ¿Qué deseas realzar? ******* \n")
     print("Por favor, digite el número de su elección: \n")
@@ -198,7 +198,7 @@ def encryptedMorse():
       if opcionGuardar == 'S' or opcionGuardar == 's':
        opcionEmail = input("\nIngresa tu Email")
        sql = "INSERT INTO message (message, encrypted, type, email) VALUES (%s, %s, %s, %s)"
-       val = (message, cipher, type, opcionEmail)
+       val = (message, cipher, tipo, opcionEmail)
        mycursor.execute(sql, val)
        mydb.commit()
        print(mycursor.rowcount, "Mensaje Ingresado con el usuario: ", opcionEmail)
@@ -213,7 +213,7 @@ def encryptedMorse():
 
 
 def consultaEncrypted(tipo):
-    os.system('clear') # NOTA para windows tienes que cambiar clear por cls
+    os.system('cls') # NOTA para windows tienes que cambiar cls por cls
     sql = "SELECT * FROM message WHERE type=%s"
     mycursor.execute(sql,(tipo, ))
     myresultII = mycursor.fetchall()
@@ -229,7 +229,7 @@ def consultaEncrypted(tipo):
 
 
 def main():
-  os.system('clear') # NOTA para windows tienes que cambiar clear por cls
+  os.system('cls') # NOTA para windows tienes que cambiar cls por cls
 
   print("******* BIENVENIDO AL SISTEMA DE ENCRYPTACIÓN DE PYTHON ******* \n")
   print('\t 1 - Registro de usuario')
@@ -256,7 +256,7 @@ while True:
 	elif opcionMenu=="4":
 		encryptedOption()
 	elif opcionMenu=="9":
-		os.system('clear')
+		os.system('cls')
 		break
 	else:
 		print ("")
