@@ -10,7 +10,7 @@ import mysql.connector #Base de datos
 #Archivos proyecto
 from morse import encrypt, decrypt
 from murcielago import Encode_M, Decode_M
-from binario import cipher_encrypt, cipher_decrypt
+from cesar import cipher_encrypt, cipher_decrypt
 
 mydb=mysql.connector.connect(host="localhost",user="root",passwd="admin")
 mycursor=mydb.cursor()
@@ -70,7 +70,7 @@ def encryptedOption():
     print("Por favor, digite el número de su elección: \n")
     print("\t [1] MORSE")
     print("\t [2] MURCIELAGO")
-    print("\t [3] BINARIO")
+    print("\t [3] CESAR")
     print("\t [0] REGRESAR  \n")
     opcionMenu = input("Seleccione una opción >> ")
     if opcionMenu == "1":
@@ -78,7 +78,7 @@ def encryptedOption():
     elif opcionMenu == "2":
       encryptedMurcielago()
     elif opcionMenu == "3":
-      encryptedBinario()
+      encryptedCesar()
     else:
        main()
 
@@ -115,9 +115,9 @@ def encryptedMurcielago():
     else:
        main()
 
-def encryptedBinario():
+def encryptedCesar():
     os.system('cls') # NOTA para windows tienes que cambiar cls por cls
-    tipo= "BINARIO"
+    tipo= "CESAR"
     print("******* ¿Qué deseas realzar? ******* \n")
     print("Por favor, digite el número de su elección: \n")
     print("\t [1] ENCRIPTAR")
@@ -126,7 +126,7 @@ def encryptedBinario():
     print("\t [0] REGRESAR  \n")
     opcionMenu = input("Selecciona la opción >> ")
     if opcionMenu == "1":      
-      print("******* ENCRIPTADO BINARIO ******* \n")
+      print("******* ENCRIPTADO CESAR ******* \n")
       message_b = input("Ingrese el mensaje que desea encriptar >> ")
       cipher_b = cipher_encrypt(message_b, 3)
       print("\nMensaje ingresado: " + message_b)
@@ -140,7 +140,7 @@ def encryptedBinario():
        mydb.commit()
        print(mycursor.rowcount, "Mensaje Ingresado con el usuario: ", opcionEmail)
        input("\n******* Presione cualquier tecla para continuar *******")
-       encryptedBinario()
+       encryptedCesar()
     elif opcionMenu == "2":
        consultaEmail(tipo)
     elif opcionMenu == "3":
@@ -170,11 +170,11 @@ def consultaEmail(types):
       print("\nMensaje descifrado: ", decipher)
       input("\n******* Presione cualquier tecla para continuar *******")
       encryptedMurcielago()
-    elif types == "BINARIO":
+    elif types == "CESAR":
       decipherb = cipher_decrypt(myresultII[0][0], 3)
       print("\nMensaje descifrado: ", decipherb)
       input("\n******* Presione cualquier tecla para continuar *******")
-      encryptedBinario()
+      encryptedCesar()
     
 
 
@@ -224,8 +224,8 @@ def consultaEncrypted(tipo):
       encryptedMorse()
     elif tipo == "MURCIELAGO":
       encryptedMurcielago()
-    elif tipo == "BINARIO":
-      encryptedBinario()
+    elif tipo == "CESAR":
+      encryptedCesar()
 
 
 def main():
